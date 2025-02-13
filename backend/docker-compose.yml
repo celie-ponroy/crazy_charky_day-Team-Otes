@@ -1,0 +1,16 @@
+networks:
+  charly.net:
+    driver: bridge
+
+services:
+
+  php:
+    image: canals/php:8.3
+    container_name: charly_php
+    ports:
+      - '2000:80'
+    networks:
+      - charly.net
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html

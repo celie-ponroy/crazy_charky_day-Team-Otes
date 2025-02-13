@@ -1,0 +1,25 @@
+{
+    "require": {
+        "php": ">=8.2",
+        "php-di/php-di": "^7.0",
+        "slim/psr7": "^1.7",
+        "slim/slim": "^4.14",
+        "tuupola/cors-middleware": "^1.4",
+        "psr/container": "*",
+        "ramsey/uuid": "^4.7",
+        "firebase/php-jwt": "^6.10",
+        "monolog/monolog": "^3.7",
+        "php-di/slim-bridge": "^3.4",
+        "doctrine/orm": "*",
+        "doctrine/dbal": "*",
+        "symfony/cache": "^7",
+        "respect/validation": "^2.3.7",
+        "symfony/polyfill-iconv": "^1.31",
+        "opis/json-schema": "^2.3"
+    },
+    "autoload": {
+        "psr-4" : {
+            "charly\\" : "./src"
+        }
+    }
+}
