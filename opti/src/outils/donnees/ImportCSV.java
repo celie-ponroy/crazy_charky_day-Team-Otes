@@ -6,6 +6,7 @@ import outils.Competence;
 import outils.Salarie;
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -30,7 +31,9 @@ public class ImportCSV implements Import{
      * charge les données depuis le fichier
      */
     private void chargerDonnees(){
-        File file = new File(path);
+        URL resource = getClass().getClassLoader().getResource(path);
+        File file = new File(resource.getFile());
+
         //on lis le contenus
         FileReader fr = null;
         try {
