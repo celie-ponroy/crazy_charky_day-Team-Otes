@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class GaleShapley implements AlgoAffectation {
+public class GaleShapley extends AlgoAffectation {
 
     /**
      * Implémente l'algorithme de Gale-Shapley pour l'affectation optimale des salariés aux besoins.
