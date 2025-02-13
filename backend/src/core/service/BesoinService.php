@@ -27,4 +27,14 @@ class BesoinService implements BesoinServiceInterface
         $besoin = $this->besoinRepository->createBesoin($idCient ,$inputCreateBesoinDTO->getIdCompetence(), $inputCreateBesoinDTO->getLibelleBesoin(), $timestamp);
         return new BesoinDTO($besoin);
     }
+
+    public function getUserBesoins (string $id): array
+    {
+        return $this->besoinRepository->getUserBesoins($id);
+    }
+
+    public function getBesoins (): array
+    {
+        return $this->besoinRepository->getBesoins();
+    }
 }
