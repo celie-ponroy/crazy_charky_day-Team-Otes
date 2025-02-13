@@ -6,7 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use charly\application\renderer\JsonRenderer;
 use charly\core\service\interfaces\UserServiceInterface;
 
-class GetUsersBesoins extends AbstractAction
+class GetBesoins extends AbstractAction
 {
     protected userServiceInterface $userService;
 
@@ -17,21 +17,9 @@ class GetUsersBesoins extends AbstractAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
- 
-        $data = $rq->getParsedBody();
-
-        
-        if (!isset($data['userId'])) {
-            return JsonRenderer::render($rs, 400, ['error' => 'Le paramètre userId est requis dans le corps de la requête.']);
-        }
-
-        $userId = $data['userId'];
-
-        
-
         try {
             // Récupérer les besoins du user
-            $needs = $this->userService->getUserBesoins($userId);
+            $needs = $this->userService->getBesoins();
 
             // Vérifier si des besoins existent pour ce user
             if (empty($needs)) {

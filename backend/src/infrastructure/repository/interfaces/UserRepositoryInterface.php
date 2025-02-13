@@ -12,4 +12,7 @@ interface UserRepositoryInterface
     public function getSalaries():array;
 
     public function getUserBesoins (string $id):array;
+
+    public function getBesoins():array;
+    
 }

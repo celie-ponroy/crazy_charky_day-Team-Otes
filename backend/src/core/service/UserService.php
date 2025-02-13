@@ -29,4 +29,10 @@ class UserService implements UserServiceInterface
     {
         return $this->userRepository->getUserBesoins($id);
     }
+
+    public function getBesoins (): array
+    {
+        return $this->userRepository->getBesoins();
+    }
+ 
 }

@@ -10,6 +10,7 @@ use charly\application\action\PostSignIn;
 use charly\middleware\AuthnMiddleware;
 use Slim\Exception\HttpNotFoundException;
 use charly\application\action\GetUsersBesoins;
+use charly\application\action\GetBesoins;
 
 return function (\Slim\App $app): \Slim\App {
 
@@ -26,6 +27,9 @@ return function (\Slim\App $app): \Slim\App {
     $app->get('/users/salaries[/]', GetSalaries::class);
 
     $app->get('/clients/besoins[/]', GetUsersBesoins::class);
+
+    $app->get('/besoins[/]', GetBesoins::class);
+        
 
     $app->options('/{routes:.+}', function ($request, $response, $args) {
         return $response;
