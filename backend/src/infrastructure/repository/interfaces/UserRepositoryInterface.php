@@ -10,4 +10,9 @@ interface UserRepositoryInterface
 {
     public function createSalarie(InputCreateSalarie $inputCreateSalarie):User;
     public function getSalaries():array;
+
+    public function getUserBesoins (string $id):array;
+
+    public function getBesoins():array;
+    
 }

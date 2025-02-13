@@ -53,6 +53,7 @@ CREATE TABLE service (
                          FOREIGN KEY (id_besoin) REFERENCES besoin(id) ON DELETE CASCADE
 );
 
+-- password: "123"
 INSERT INTO users (id, nom, role, password) VALUES
                                                 ('b32c67e6-4328-4a8b-8d9d-23260b8d28a3', 'Client Un', 0, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6'),
                                                 ('7a40e88f-1111-4e6f-a90e-1234567890ab', 'Client Deux', 0, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6'),

@@ -3,27 +3,65 @@
 namespace charly\core\service;
 
 use charly\core\dto\UserDTO;
+use charly\core\domain\entity\User;
+use charly\providers\auth\JWTManager;
 use charly\core\service\interfaces\UserAuthServiceInterface;
-use charly\infrastructure\repository\interfaces\UserRepositoryInterface;
+use charly\infrastructure\repository\interfaces\AuthRepositoryInterface;
+use charly\infrastructure\repository\PdoAuthException;
 
 class UserAuthService implements UserAuthServiceInterface
 {
-    protected UserRepositoryInterface $userRepository;
+    protected AuthRepositoryInterface $authRepository;
+    private JWTManager $jwtManager;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(AuthRepositoryInterface $authRepository , JWTManager $jwtManager)
     {
-        $this->userRepository = $userRepository;
+        $this->authRepository = $authRepository;
+        $this->jwtManager = $jwtManager;
     }
 
-    public function signIn(string $nom, string $plainPassword): UserDTO
+    /**
+     * Méthode pour enregistrer un utilisateur
+     */
+    public function register(string $nom, string $password): void
     {
-        $user = $this->userRepository->getUserByNom($nom);
-        if (!$user) {
-            throw new \Exception("Utilisateur non trouvé");
+        try {
+            $user = new User($nom, $password);
+            $this->authRepository->register($user);
+        } catch (PdoAuthException $e) {
+            throw new AuthenticationException($e->getMessage());
         }
-        if (!$user->verifyPassword($plainPassword)) {
-            throw new \Exception("Mot de passe invalide");
+    }
+
+    /**
+     * Méthode pour authentifier un utilisateur
+     */
+    public function login(string $nom, string $password): UserDTO
+    {
+        try {
+            $userDTO = $this->authRepository->login($nom);
+
+            if (!$userDTO || !password_verify($password, $userDTO->hashed_password)) {
+                throw new AuthenticationException('Identifiants invalides');
+            }
+
+            $accessToken = $this->jwtManager->createAccessToken([
+                'id' => $userDTO->id,
+                'role' => $userDTO->role,
+                'exp' => time() + 3600, // Access token valable 1 heure
+            ]);
+
+            $refreshToken = $this->jwtManager->createRefreshToken([
+                'id' => $userDTO->id,
+                'role' => $userDTO->role,
+                'exp' => time() + 86400, // Refresh token valable 24 heures
+            ]);
+
+            $userDTO->setAccessToken($accessToken);
+            $userDTO->setRefreshToken($refreshToken);
+            return $userDTO;
+        } catch (PdoAuthException | \Exception $e) {
+            throw new AuthenticationException($e->getMessage());
         }
-        return $user->toDTO();
     }
 }
