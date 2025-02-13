@@ -13,6 +13,10 @@ use charly\infrastructure\repository\UserRepository;
 use charly\infrastructure\repository\AuthRepository;
 use charly\core\service\interfaces\UserAuthServiceInterface;
 use charly\infrastructure\repository\interfaces\AuthRepositoryInterface;
+use charly\infrastructure\repository\ServiceRepository;
+use charly\infrastructure\repository\interfaces\ServiceRepositoryInterface;
+use charly\core\service\ServiceService;
+use charly\core\service\interfaces\ServiceServiceInterface;
 use charly\providers\auth\JWTManager;
 use charly\core\service\UserAuthService;
 use charly\middleware\CorsMiddleware;
@@ -44,6 +48,14 @@ return [
     UserAuthServiceInterface::class => function (ContainerInterface $container) {
         $jwtManager = $container->get(JWTManager::class);
         return new UserAuthService($container->get(AuthRepositoryInterface::class), $jwtManager);
+    },
+
+    ServiceRepositoryInterface::class => function (ContainerInterface $container) {
+        return new ServiceRepository($container->get('pdo'));
+    },
+
+    ServiceServiceInterface::class => function (ContainerInterface $container) {
+        return new ServiceService($container->get(ServiceRepositoryInterface::class));
     },
 
     CorsMiddleware::class => DI\autowire(CorsMiddleware::class),

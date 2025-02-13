@@ -12,6 +12,7 @@ use Slim\Exception\HttpNotFoundException;
 use charly\middleware\AuthMiddleware;
 use charly\application\action\GetUsersBesoins;
 use charly\application\action\GetBesoins;
+use charly\application\action\GetServicesByUserId;
 
 return function (\Slim\App $app): \Slim\App {
 
@@ -31,9 +32,12 @@ return function (\Slim\App $app): \Slim\App {
     //Route pour les compétences
     $app->get('/competences[/]', GetListCompetence::class)->add(AuthMiddleware::class);
 
-    $app->get('/clients/besoins[/]', GetUsersBesoins::class);
+    //Route pour les besoins
+    $app->get('/besoins[/]', GetBesoins::class)->add(AuthMiddleware::class);
 
-    $app->get('/besoins[/]', GetBesoins::class);
+    $app->get('/users/{id}/services', GetServicesByUserId::class)->add(AuthMiddleware::class);
+
+    $app->get('/clients/besoins[/]', GetUsersBesoins::class);    
         
 
     $app->options('/{routes:.+}', function ($request, $response, $args) {
