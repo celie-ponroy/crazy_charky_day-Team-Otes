@@ -26,7 +26,7 @@ public class LancerAlgo {
         System.out.println("3 - AlgoAffectation (autre implémentation)");
         System.out.print("Entrez le numéro correspondant : ");
         int choixAlgo = scanner.nextInt();
-        scanner.nextLine(); // Consommer le retour à la ligne
+        scanner.nextLine();
 
         AlgoAffectation algo;
         switch (choixAlgo) {
@@ -51,7 +51,7 @@ public class LancerAlgo {
         System.out.println("3 - Difficile");
         System.out.print("Entrez le numéro correspondant : ");
         int choixFichier = scanner.nextInt();
-        scanner.nextLine(); // Consommer le retour à la ligne
+        scanner.nextLine();
 
         String fichierCSV;
         switch (choixFichier) {
