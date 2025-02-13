@@ -2,6 +2,8 @@ package api.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import outils.donnees.ImportBD;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import java.io.IOException;
@@ -12,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RunCalculHandler implements HttpHandler {
+
+    private ImportBD importBD = new ImportBD();
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -32,8 +36,7 @@ public class RunCalculHandler implements HttpHandler {
 
             String dateStr = json.getString("date");
             if (isValidDate(dateStr)) {
-
-                // TODO: faire le traitmenet du calcul ici
+                System.out.println(importBD.getBesoinsByDate(dateStr));
 
                 sendResponse(exchange, 200, "Date valide");
             } else {
