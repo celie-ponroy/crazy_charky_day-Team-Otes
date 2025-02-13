@@ -25,8 +25,10 @@ public class LancerAlgo {
 
         System.out.println("Liste des affectations : ");
         System.out.println(algoGlouton.lancerCalcul(listeBesoin, listeSalaries));
-        ex.exporterSolution(algoGlouton.lancerCalcul(listeBesoin, listeSalaries),algoGlouton.score,"/home/maelle/Documents/crazy_charky_day-Team-Otes/opti/ressource/csv/01_pb_simples/Probleme_1_nbSalaries_3_nbClients_3_nbTaches_2.csv");
+        ex.exporterSolution(algoGlouton.lancerCalcul(listeBesoin, listeSalaries),algoGlouton.score,"/home/maelle/Documents/crazy_charky_day-Team-Otes/opti/ressource/csv/01_pb_simples/Probleme_1_nbSalaries_3_nbClients_3_nbTaches_2");
         System.out.println("Score : " + algoGlouton.score);
+
     }
+
 
 }

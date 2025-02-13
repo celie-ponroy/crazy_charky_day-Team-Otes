@@ -66,9 +66,10 @@ public class ImportCSV implements Import{
 
                 String[] parts = line.split(";");
                 if (besoinActuel) {
+                    int id = Integer.parseInt(parts[0]);
                     String nom = parts[1];
                     Competence comp = Competence.valueOf(parts[2]);
-                    Besoin besoin = new Besoin(UUID.randomUUID(), nom, comp);
+                    Besoin besoin = new Besoin(id, nom, comp);
                     besoins.add(besoin);
                 } else if (competenceActuel) {
                     String nom = parts[1];
@@ -164,7 +165,7 @@ public class ImportCSV implements Import{
                 Competence comp = Competence.valueOf(parts[1]);
                 String besoinNom = parts[2];
 
-                Affectation affectation = new Affectation(new Besoin(UUID.randomUUID(), besoinNom, comp), new Salarie(UUID.randomUUID(), salarieNom, Map.of(comp, 0)));
+                Affectation affectation = new Affectation(new Besoin(0, besoinNom, comp), new Salarie(UUID.randomUUID(), salarieNom, Map.of(comp, 0)));
                 expectedAffectations.add(affectation);
             }
         } catch (Exception e) {

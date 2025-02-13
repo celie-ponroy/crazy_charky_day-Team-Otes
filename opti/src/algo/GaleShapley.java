@@ -2,17 +2,17 @@ package algo;
 
 import outils.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class GaleShapley extends AlgoAffectation {
 
     @Override
     public List<Affectation> lancerCalcul(List<Besoin> besoins, List<Salarie> salaries) {
-        // 🔹 Assurer un ordre fixe des salariés
+
         salaries.sort(Comparator.comparing(Salarie::nom));
 
         Map<Salarie, Map<Besoin, Integer>> salariesLibre = new LinkedHashMap<>();
-        // Mise à jour : affectation stocke désormais une map de Besoin -> score pour chaque salarié
         Map<Salarie, Map<Besoin, Integer>> affectation = new LinkedHashMap<>();
 
         for (Salarie salarie : salaries) {
@@ -25,14 +25,19 @@ public class GaleShapley extends AlgoAffectation {
                     besoinsLibre.put(besoin, valeur);
                 }
             }
-            salariesLibre.put(salarie, besoinsLibre);
+            if (!besoinsLibre.isEmpty()) {
+                salariesLibre.put(salarie, besoinsLibre);
+            }
         }
 
-        while (!salariesLibre.isEmpty()) {
-            salariesLibre = trierSalariesLibre(salariesLibre); // Trier de façon stable
+        while (!salariesLibre.isEmpty() && (affectation.size() != besoins.size())) {
+            printMapVisually(salariesLibre);
+
+            // Tri des salariés libres (par leur meilleur score)
+            salariesLibre = trierSalariesLibre(salariesLibre);
             updateSalariesLibre(salariesLibre, affectation);
 
-            Map<Besoin, Salarie> besoinsDemandes = new LinkedHashMap<>(); // Qui demande quoi ?
+            Map<Besoin, Salarie> besoinsDemandes = new LinkedHashMap<>();
             Iterator<Map.Entry<Salarie, Map<Besoin, Integer>>> iterator = salariesLibre.entrySet().iterator();
 
             while (iterator.hasNext()) {
@@ -41,37 +46,32 @@ public class GaleShapley extends AlgoAffectation {
                 Map<Besoin, Integer> liste = entry.getValue();
 
                 if (!liste.isEmpty()) {
-                    Besoin premierBesoin = liste.entrySet().iterator().next().getKey(); // Prend son premier choix
+                    Besoin premierBesoin = liste.entrySet().iterator().next().getKey();
 
                     if (!besoinsDemandes.containsKey(premierBesoin)) {
-                        // Si personne ne l'a encore demandé, il est affecté immédiatement
-                        // On enregistre également le score courant pour ce besoin
+                        // Affectation directe
                         Map<Besoin, Integer> assignment = new LinkedHashMap<>();
                         assignment.put(premierBesoin, liste.get(premierBesoin));
                         affectation.put(salarie, assignment);
                         besoinsDemandes.put(premierBesoin, salarie);
                         iterator.remove(); // Retirer ce salarié car il est affecté
                     } else {
-                        // Si déjà demandé, on enlève ce choix et il continue le prochain tour
                         liste.remove(premierBesoin);
                     }
                 }
             }
-            System.out.println(affectation);
         }
 
-        int somme = 0;
-        for (Salarie s : affectation.keySet()){
-            Map<Besoin, Integer> assignMap = affectation.get(s);
-            // On suppose qu'il y a une seule affectation par salarié ; on prend le premier
-            Map.Entry<Besoin, Integer> entry = assignMap.entrySet().iterator().next();
-            System.out.println(s.nom() + " est affecté à " + entry.getKey().nom()
-                    + " (" + entry.getKey().competence() + ") avec un score de " + entry.getValue());
-            somme += entry.getValue();
+        // Conversion de `affectation` en `List<Affectation>`
+        List<Affectation> affectations = new ArrayList<>();
+        for (Map.Entry<Salarie, Map<Besoin, Integer>> entry : affectation.entrySet()) {
+            Salarie salarie = entry.getKey();
+            Map.Entry<Besoin, Integer> affectationEntry = entry.getValue().entrySet().iterator().next();
+            Besoin besoin = affectationEntry.getKey();
+            affectations.add(new Affectation(besoin, salarie));
         }
-        System.out.println(somme);
 
-        return null;
+        return affectations;
     }
 
     private Map<Salarie, Map<Besoin, Integer>> trierSalariesLibre(
