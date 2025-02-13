@@ -19,6 +19,5 @@ public abstract class AlgoAffectation {
     }
 
     public abstract List<Affectation> lancerCalcul(List<Besoin> besoins, List<Salarie> salaries);
-    public abstract void verifFin(List<Besoin> besoins, List<Salarie> salaries);
 
 }

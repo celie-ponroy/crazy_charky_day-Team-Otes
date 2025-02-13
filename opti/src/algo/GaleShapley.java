@@ -4,7 +4,7 @@ import outils.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GaleShapley implements AlgoAffectation {
+public class GaleShapley extends AlgoAffectation {
 
     @Override
     public List<Affectation> lancerCalcul(List<Besoin> besoins, List<Salarie> salaries) {
