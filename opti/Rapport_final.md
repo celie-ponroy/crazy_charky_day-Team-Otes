@@ -67,7 +67,7 @@ git push -u origin master
 
 Image de l'accueil de l'application web :
 
-![Texte alternatif](accueil.png "Accueil de l'application")
+![Texte alternatif](/image/accueil.png "Accueil de l'application")
 
 ##  Partie Optimisation ##
 
