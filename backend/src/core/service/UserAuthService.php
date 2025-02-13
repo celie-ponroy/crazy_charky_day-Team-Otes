@@ -64,4 +64,16 @@ class UserAuthService implements UserAuthServiceInterface
             throw new AuthenticationException($e->getMessage());
         }
     }
+
+    /**
+     * Méthode pour recuperer un utilisateur par son id
+     */
+    public function getUserById(string $id): UserDTO
+    {
+        try {
+            return $this->authRepository->getUserById($id);
+        } catch (PdoAuthException $e) {
+            throw new AuthenticationException($e->getMessage());
+        }
+    }
 }
