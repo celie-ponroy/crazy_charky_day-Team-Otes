@@ -1,38 +1,43 @@
 <script>
-  export default {
-    name: 'BesoinCard',
-    props: {
-      besoin: {
-        type: Object,
-        required: true
-      }
-    },
-    methods: {
-      formatDate(dateString) {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-      },
-      handleInterest() {
-        alert(`Vous avez exprimé votre intérêt pour le besoin: ${this.besoin.libelle}`);
-      }
+export default {
+  name: 'BesoinCard',
+  props: {
+    besoin: {
+      type: Object,
+      required: true
     }
-  };
+  },
+  methods: {
+    formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    },
+    handleInterest() {
+      alert(`Vous avez exprimé votre intérêt pour ce besoin`);
+    }
+  }
+};
 </script>
 
 <template>
-    <div class="border border-gray-200 rounded-lg shadow-sm p-4 space-y-4">
-      <div class="need-card-header">
-        <h3>{{ besoin.libelle }}</h3>
-        <p>{{ besoin.client }}</p>
+  <div class=" bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <div class="p-6">
+      <div class="text-lg font-semibold text-gray-800">
+        {{ besoin.libelle }}
       </div>
-      <div class="need-card-body">
-        <p>{{ besoin.description }}</p>
-        <p><strong>Compétence requise:</strong> {{ besoin.competence }}</p>
-        <p><strong>Date de création:</strong> {{ formatDate(besoin.date) }}</p>
-      </div>
-      <div class="need-card-footer">
-        <button @click="handleInterest">Je suis intéressé</button>
+      <div class="mt-4 text-gray-600">
+        <p>Proposé par : <strong>{{ besoin.client }}</strong></p>
+        <p class="mt-2"><strong>Compétence requise:</strong> {{ besoin.competence }}</p>
+        <p class="mt-2"><strong>Date de création:</strong> {{ formatDate(besoin.date) }}</p>
       </div>
     </div>
-  </template>
-  
+    <div class="p-4 bg-gray-50 border-t border-gray-200 text-center">
+      <button
+        @click="handleInterest"
+        class="px-4 py-2 bg-[#b2bf00] text-white rounded-md hover:bg-[#b2bf0] cursor-pointer"
+      >
+        Je suis intéressé
+      </button>
+    </div>
+  </div>
+</template>

@@ -6,24 +6,13 @@ export default {
             nomClient: '',
             description: '',
             selectedComp: '',
-            competences: [
-                {
-                    id: 1,
-                    libelle: 'BR',
-                    description: 'Compétences de bricolage'
-                },
-                {
-                    id: 2,
-                    libelle: 'JD',
-                    description: 'Compétences de jardinage'
-                },
-            ],
+            competences: [],
         };
     },
     mounted() {
-        // gameService.getCompetences().then((competences) => {
-        //     this.competences = competences;
-        // });
+        gameService.getCompetences().then((competences) => {
+            this.competences = competences;
+        });
     },
     methods: {
         soumettreFormulaire() {
@@ -78,8 +67,8 @@ export default {
                 </label>
                 <select v-model="selectedComp"
                     class="w-full px-4 py-2 rounded-md border-2 border-gray-600 text-slate-900 outline-none transition-colors">
-                    <option v-for="competence in competences" :key="competence.id" :value="competence.libelle">
-                        {{ competence.libelle }}
+                    <option v-for="competence in competences" :key="competence.id" :value="competence.label">
+                        {{ competence.label }}
                     </option>
                 </select>
             </div>

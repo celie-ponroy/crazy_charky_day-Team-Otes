@@ -4,14 +4,19 @@ import { RouterLink, RouterView } from 'vue-router';
 
 <template>
   <div class="min-h-screen bg-gray-100">
-    <header class="bg-white shadow-md">
-      <div class="mx-auto px-4 py-6 flex justify-between items-center">
-        <nav class="flex space-x-4">
-          <RouterLink to="/" class="text-indigo-600 hover:text-indigo-800 font-semibold">PerfectMatch</RouterLink>
-          <RouterLink to="/besoins" class="text-indigo-600 hover:text-indigo-800 font-semibold">Besoins</RouterLink>
-          <RouterLink to="/besoins/add" class="text-indigo-600 hover:text-indigo-800 font-semibold">Ajouter un besoin</RouterLink>
-        </nav>
-      </div>
+    <header class="bg-[#375a69] shadow-md text-white  px-6 py-6 mb-8 font-semibold">
+
+      <nav class="mx-auto flex space-x-4 items-center justify-between">
+        <div>
+          <RouterLink to="/" class="text-2xl hover:text-[#b2bf00]">PerfectMatch</RouterLink>
+        </div>
+        <div class="space-x-4">
+          <RouterLink to="/besoins/add" class="hover:text-[#b2bf00]">Ajouter un besoin</RouterLink>
+          <RouterLink to="/login" class="hover:text-[#b2bf00]">Se connecter</RouterLink>
+          <RouterLink to="/profil" class="hover:text-[#b2bf00]">Profil</RouterLink>
+        </div>
+
+      </nav>
     </header>
 
     <main class="mx-auto px-4 py-8">
@@ -19,5 +24,3 @@ import { RouterLink, RouterView } from 'vue-router';
     </main>
   </div>
 </template>
-
-
