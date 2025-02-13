@@ -5,22 +5,30 @@ import outils.Besoin;
 import outils.Competence;
 import outils.Salarie;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.*;
 
+/**
+ * Importe les données depuis un fichier CSV
+ */
 public class ImportCSV implements Import{
-    String path;
-    List<Besoin> besoins;
-    List<Salarie> salaries;
+    private String path;
+    private List<Besoin> besoins;
+    private List<Salarie> salaries;
+    private List<Affectation> affectations;
+    private int score;
 
+    /**
+     * Constructeur
+     * @param path
+     */
     public ImportCSV(String path){
         this.path = path;
-        chargerDonnees();
-
     }
+
+    /**
+     * charge les données depuis le fichier
+     */
     private void chargerDonnees(){
         File file = new File(path);
         //on lis le contenus
@@ -28,7 +36,6 @@ public class ImportCSV implements Import{
         try {
             fr = new FileReader(file);
         } catch (FileNotFoundException e) {
-            System.out.println("fichier non trouvé");
             this.besoins = List.of();
             this.salaries = List.of();
         }
@@ -41,7 +48,6 @@ public class ImportCSV implements Import{
 
         try {
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
                 line = line.trim();
                 if (line.isEmpty()) {
                     continue; // ignorer les lignes vides
@@ -84,19 +90,87 @@ public class ImportCSV implements Import{
         this.salaries = new ArrayList<>(salariesMap.values());
     }
 
+    /**
+     * Retourne les besoins et les charge si nécessaire
+     * @return
+     */
     @Override
     public List<Besoin> getBesoin() {
+        if(besoins == null){
+            chargerDonnees();
+        }
         return besoins;
     }
 
+    /**
+     * Retourne les salariés et les charge si nécessaire
+     * @return
+     */
     @Override
     public List<Salarie> getSalaries() {
+        if (salaries == null){
+            chargerDonnees();
+        }
         return salaries;
     }
 
-    @Override
-    public List<Affectation> getSolution() {
-        return List.of();
+    /**
+     * Retourne le score final et le charge si nécessaire
+     * @return
+     */
+    public int getScore() {
+        if (affectations == null){
+            chargerSolution();
+        }
+        return score;
     }
 
+    /**
+     * Retourne les affectations et les charge si nécessaire
+     * @return
+     */
+    @Override
+    public List<Affectation> getSolution() {
+        score = 0;
+        if (affectations == null){
+            chargerSolution();
+        }
+        return affectations;
+    }
+
+    /**
+     * Charge la solution depuis le fichier
+     */
+    public void chargerSolution(){
+        List<Affectation> expectedAffectations = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
+            String line;
+            boolean firstLine = true;
+
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty()) {
+                    continue;
+                }
+                String[] parts = line.split(";");
+                if (firstLine) {
+                    //on recupère le score
+                    score = Integer.parseInt(parts[0].replace(";", ""));
+                    firstLine = false;
+                    continue;
+                }
+                String salarieNom = parts[0];
+                Competence comp = Competence.valueOf(parts[1]);
+                String besoinNom = parts[2];
+
+                Affectation affectation = new Affectation(new Besoin(UUID.randomUUID(), besoinNom, comp), new Salarie(UUID.randomUUID(), salarieNom, Map.of(comp, 0)));
+                expectedAffectations.add(affectation);
+            }
+        } catch (Exception e) {
+           affectations = List.of();
+        }
+
+        affectations =  expectedAffectations;
+    }
 }
