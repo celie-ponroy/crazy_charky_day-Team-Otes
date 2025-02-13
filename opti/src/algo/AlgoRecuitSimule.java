@@ -8,9 +8,8 @@ import outils.donnees.ImportCSV;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlgoRecuitSimule implements AlgoAffectation{
+public class AlgoRecuitSimule extends AlgoAffectation{
     private List<Affectation> perfectMatches = new ArrayList<>();
-     int score = 0;
 
     /**
      * lancer le calcul

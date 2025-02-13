@@ -17,6 +17,7 @@ public class LancerAlgo {
     }
 
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
         // Choix de l'algorithme
@@ -46,9 +47,9 @@ public class LancerAlgo {
 
         // Choix du fichier de données
         System.out.println("\nChoisissez un fichier de test :");
-        System.out.println("1 - Facile");
-        System.out.println("2 - Moyen");
-        System.out.println("3 - Difficile");
+        System.out.println("1 - Exemple");
+        System.out.println("2 - Simple");
+        System.out.println("3 - Complexe");
         System.out.print("Entrez le numéro correspondant : ");
         int choixFichier = scanner.nextInt();
         scanner.nextLine();
@@ -56,10 +57,10 @@ public class LancerAlgo {
         String fichierCSV;
         switch (choixFichier) {
             case 1:
-                fichierCSV = "opti/csv/02_pb_simples/Probleme_simple.csv";
+                fichierCSV = "opti/csv/00_pb_exemple/Probleme_simple.csv";
                 break;
             case 2:
-                fichierCSV = "opti/csv/02_pb_moyens/Probleme_moyen.csv";
+                fichierCSV = "opti/csv/01_pb_simples/Probleme_1_nbSalaries_3_nbClients_3_nbTaches_2.csv";
                 break;
             case 3:
                 fichierCSV = "opti/csv/02_pb_complexes/Probleme_1_nbSalaries_10_nbClients_10_nbTaches_3.csv";
@@ -71,8 +72,9 @@ public class LancerAlgo {
 
         // Importation des données
         ImportCSV importCSV = new ImportCSV(fichierCSV);
+
         List<Besoin> listeBesoin = importCSV.getBesoin();
-        List<Salarie> listeSalaries = importCSV.getSalaries();
+        List <Salarie> listeSalaries = importCSV.getSalaries();
 
         // Exécution de l'algorithme
         ExportCSV ex = new ExportCSV();
@@ -81,10 +83,14 @@ public class LancerAlgo {
 
         // Affichage et exportation des résultats
         System.out.println("Liste des affectations : ");
+
         System.out.println(resultats);
         ex.exporterSolution(resultats, algo.score, "opti/csv/soluce.csv");
         System.out.println("Score : " + algo.score);
 
         scanner.close();
+
     }
+
+
 }
