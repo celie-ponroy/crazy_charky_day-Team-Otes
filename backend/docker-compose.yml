@@ -23,7 +23,7 @@ services:
     networks:
       - charly.net
     volumes:
-      - ./sql:/var/sql'
+      - ./sql:/var/sql
 
   adminer:
     image: adminer:latest
