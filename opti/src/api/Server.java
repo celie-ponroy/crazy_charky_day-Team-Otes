@@ -1,10 +1,10 @@
-package perfectmatch;
+package api;
 
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import perfectmatch.handlers.HelloHandler;
-import perfectmatch.handlers.EchoHandler;
+import api.handlers.HelloHandler;
+import api.handlers.EchoHandler;
 
 public class Server {
     public static void start(int port) {

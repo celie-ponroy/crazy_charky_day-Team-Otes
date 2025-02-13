@@ -1,21 +1,29 @@
-package perfectmatch.handlers;
+package api.handlers;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import javax.json.Json;
 import javax.json.JsonObject;
-import perfectmatch.models.ApiResponse;
+import api.models.ApiResponse;
 
-public class HelloHandler implements HttpHandler {
+public class EchoHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
-        if ("GET".equals(exchange.getRequestMethod())) {
-            JsonObject jsonData = Json.createObjectBuilder()
-                    .add("greeting", "Hello, World!")
-                    .build();
+        if ("POST".equals(exchange.getRequestMethod())) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8));
+            StringBuilder requestBody = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                requestBody.append(line);
+            }
 
-            ApiResponse response = new ApiResponse("Success", jsonData);
+            JsonObject receivedData = Json.createReader(new java.io.StringReader(requestBody.toString())).readObject();
+
+            ApiResponse response = new ApiResponse("Received data", receivedData);
             sendResponse(exchange, response.toJsonString(), 200);
         } else {
             sendResponse(exchange, "{ \"message\": \"Method Not Allowed\" }", 405);
