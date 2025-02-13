@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use charly\application\action\HomeAction;
 use Slim\Exception\HttpNotFoundException;
 
 return function (\Slim\App $app): \Slim\App {
@@ -15,7 +16,6 @@ return function (\Slim\App $app): \Slim\App {
     $app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function ($request, $response) {
         throw new HttpNotFoundException($request);
     });
-
 
     return $app;
 };

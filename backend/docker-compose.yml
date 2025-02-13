@@ -14,3 +14,23 @@ services:
     volumes:
       - ./:/var/www/html
     working_dir: /var/www/html
+
+  charly.db:
+    image: 'postgres:latest'
+    env_file: ./charly.env
+    ports:
+      - '2002:5432'
+    networks:
+      - charly.net
+    volumes:
+      - ./sql:/var/sql'
+
+  adminer:
+    image: adminer:latest
+    container_name: charly_adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: charly.db
+    ports:
+      - '2001:8080'
+    networks:
+      - charly.net
