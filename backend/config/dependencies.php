@@ -15,12 +15,17 @@ use Psr\Container\ContainerInterface;
 
 return [
 
+    //SERVICES
     BesoinServiceInterface::class => DI\autowire(BesoinService::class),
     CompetenceServiceInterface::class => DI\autowire(CompetenceService::class),
+    \charly\core\service\interfaces\UserServiceInterface::class=> DI\autowire(\charly\core\service\UserService::class),
+    \charly\core\service\interfaces\UserAuthServiceInterface::class=> DI\autowire(\charly\core\service\UserAuthService::class),
 
+    //REPOSITORIES
     BesoinRepositoryInterface::class => DI\autowire(BesoinRepository::class),
     UserRepositoryInterface::class => DI\autowire(UserRepository::class),
     CompetenceRepositoryInterface::class => DI\autowire(CompetenceRepository::class),
+
 
     'pdo' => function(ContainerInterface $c){
         $config= parse_ini_file($c->get('db.config'));
@@ -28,4 +33,5 @@ return [
     },
 
     CorsMiddleware::class => DI\autowire(CorsMiddleware::class),
+    \charly\middleware\AuthnMiddleware::class => DI\autowire(\charly\middleware\AuthnMiddleware::class),
 ];
