@@ -25,19 +25,11 @@ export default {
       <div class="text-lg font-semibold text-gray-800">
         {{ besoin.libelle }}
       </div>
-      <div class="mt-4 text-gray-600">
-        <p>Proposé par : <strong>{{ besoin.client }}</strong></p>
-        <p class="mt-2"><strong>Compétence requise:</strong> {{ besoin.competence }}</p>
-        <p class="mt-2"><strong>Date de création:</strong> {{ formatDate(besoin.date) }}</p>
+      <div class="mt-4 text-gray-600">  
+        <p>Proposé par : <strong>{{ besoin.nomClient }}</strong></p>
+        <p class="mt-2"><strong>Compétence requise:</strong> {{ besoin.libelleBesoin }}</p>
+        <p class="mt-2"><strong>Date de création:</strong> {{ formatDate(besoin.timestamp * 1000  ) }}</p>
       </div>
-    </div>
-    <div class="p-4 bg-gray-50 border-t border-gray-200 text-center">
-      <button
-        @click="handleInterest"
-        class="px-4 py-2 bg-[#b2bf00] text-white rounded-md hover:bg-[#b2bf0] cursor-pointer"
-      >
-        Je suis intéressé
-      </button>
     </div>
   </div>
 </template>

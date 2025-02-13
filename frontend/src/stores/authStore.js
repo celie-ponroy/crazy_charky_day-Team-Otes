@@ -6,86 +6,79 @@ export const useAuthStore = defineStore('auth', {
     isLoggedIn: false,
     user: null,
     token: null,
-    error: null
+    error: null,
   }),
+
+  persist: {
+    key: 'auth',
+    storage: localStorage,
+    paths: ['isLoggedIn', 'user', 'token'],
+  },
 
   actions: {
     async login(credentials) {
+      this.error = null;
       try {
-        this.error = null
-        const response = await authService.login(credentials)
-        
-        if (response.success && response.data) {
-          const decodedToken = this.decodeJWT(response.data.accessToken)
-          
-          this.token = response.data.accessToken
+        const response = await authService.login(credentials);
+        if (response?.success && response.data) {
+          const decodedToken = this.decodeJWT(response.data.accessToken);
+          if (!decodedToken) {
+            throw new Error('Token invalide');
+          }
+          this.token = response.data.accessToken;
           this.user = {
             id: decodedToken.sub,
-            role: decodedToken.role
-          }
-          this.isLoggedIn = true
-
-          localStorage.setItem('token', this.token)
-          localStorage.setItem('user', JSON.stringify(this.user))
+            role: decodedToken.role,
+          };
+          this.isLoggedIn = true;
         }
       } catch (error) {
-        this.error = error.message
-        throw error
+        this.error = error.message;
+        throw error;
       }
     },
 
     decodeJWT(token) {
+      if (!token) return null;
       try {
-        if (!token) return null
-        const base64Url = token.split('.')[1]
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-        }).join(''))
-        return JSON.parse(jsonPayload)
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split('')
+            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+        );
+        return JSON.parse(jsonPayload);
       } catch (error) {
-        console.error('Erreur lors du décodage du token:', error)
-        return null
+        console.error('Erreur lors du décodage du token:', error);
+        return null;
       }
     },
 
     async register(userData) {
+      this.error = null;
       try {
-        this.error = null
-        await authService.register(userData)
+        await authService.register(userData);
         await this.login({
           nom: userData.nom,
-          password: userData.password
-        })
+          password: userData.password,
+        });
       } catch (error) {
-        this.error = error.message
-        throw error
-      }
-    },   
-
-    logout(router) {
-      this.isLoggedIn = false
-      this.user = null
-      this.token = null
-      this.error = null
-      
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      
-      if (router) {
-        router.push('/')
+        this.error = error.message;
+        throw error;
       }
     },
 
-    initializeFromStorage() {
-      const token = localStorage.getItem('token')
-      const user = localStorage.getItem('user')
-      
-      if (token && user) {
-        this.token = token
-        this.user = JSON.parse(user)
-        this.isLoggedIn = true
+    logout(router) {
+      this.isLoggedIn = false;
+      this.user = null;
+      this.token = null;
+      this.error = null;
+      if (router) {
+        router.push('/');
       }
-    }
-  }
-}) 
+    },
+
+  },
+});
