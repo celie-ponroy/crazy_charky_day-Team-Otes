@@ -12,8 +12,10 @@ DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                        nom VARCHAR(255) NOT NULL UNIQUE,
-                       role INT NOT NULL
+                       role INT NOT NULL,
+                       password VARCHAR(255) NOT NULL
 );
+
 
 
 CREATE TABLE competence (
@@ -51,15 +53,16 @@ CREATE TABLE service (
                          FOREIGN KEY (id_besoin) REFERENCES besoin(id) ON DELETE CASCADE
 );
 
-INSERT INTO users (id, nom, role) VALUES
-                                      ('b32c67e6-4328-4a8b-8d9d-23260b8d28a3', 'Client Un', 0),
-                                      ('7a40e88f-1111-4e6f-a90e-1234567890ab', 'Client Deux', 0),
-                                      ('8b9e2fca-2222-4ad9-9fcd-0987654321cd', 'Client Trois', 0),
-                                      ('4f7a4cd1-9c47-4a64-9f55-813fc60a4c3a', 'Employé Un', 1),
-                                      ('9f7c2e3b-3333-4abc-8a7d-112233445566', 'Employé Deux', 1),
-                                      ('a6e8d10a-4444-4cba-b123-6677889900aa', 'Employé Trois', 1),
-                                      ('6d8f8b10-d1b9-45c8-b843-5c2c64f0afc1', 'Admin Un', 2),
-                                      ('b7f9d20b-5555-4dcd-c234-778899001122', 'Admin Deux', 2);
+INSERT INTO users (id, nom, role, password) VALUES
+                                                ('b32c67e6-4328-4a8b-8d9d-23260b8d28a3', 'Client Un', 0, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6'),
+                                                ('7a40e88f-1111-4e6f-a90e-1234567890ab', 'Client Deux', 0, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6'),
+                                                ('8b9e2fca-2222-4ad9-9fcd-0987654321cd', 'Client Trois', 0, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6'),
+                                                ('4f7a4cd1-9c47-4a64-9f55-813fc60a4c3a', 'Employé Un', 1, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6'),
+                                                ('9f7c2e3b-3333-4abc-8a7d-112233445566', 'Employé Deux', 1, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6'),
+                                                ('a6e8d10a-4444-4cba-b123-6677889900aa', 'Employé Trois', 1, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6'),
+                                                ('6d8f8b10-d1b9-45c8-b843-5c2c64f0afc1', 'Admin Un', 2, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6'),
+                                                ('b7f9d20b-5555-4dcd-c234-778899001122', 'Admin Deux', 2, '$2y$10$p4XTteDAhVb0uotLyG7vRuCBm3GyUOT/PDa53i4TQpC0KQxYXA1Y6');
+
 
 INSERT INTO competence (libelle, description) VALUES
                                                   ('Jardinage', 'Service de jardinage'),

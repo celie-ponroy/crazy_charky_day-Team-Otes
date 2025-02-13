@@ -27,6 +27,17 @@ class UserRepository implements UserRepositoryInterface
         return $data ? $data['id'] : null;
     }
 
+    public function getUserByNom(string $nom): ?User
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE nom = :nom');
+        $stmt->execute(['nom' => $nom]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            return new User($data['nom'], $data['id'], $data['role'], $data['password']);
+        }
+        return null;
+    }
+
     public function createSalarie(InputCreateSalarie $input): User
     {
         $stmt = $this->pdo->prepare(
