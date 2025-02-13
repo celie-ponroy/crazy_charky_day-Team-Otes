@@ -5,5 +5,5 @@ import outils.Affectation;
 import java.util.List;
 
 public interface Export {
-    abstract void exporterSolution(List<Affectation> affactations);
+    abstract void exporterSolution(List<Affectation> affactations , int score, String path);
 }
