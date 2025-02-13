@@ -2,8 +2,8 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+use charly\middleware\CorsMiddleware;
 use DI\ContainerBuilder;
-use Doctrine\ORM\EntityManager;
 use Slim\Factory\AppFactory;
 
 $builder = new ContainerBuilder();

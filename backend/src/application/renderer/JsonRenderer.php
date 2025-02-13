@@ -1,6 +1,8 @@
 <?php
 
 namespace charly\application\renderer;
+use Psr\Http\Message\ResponseInterface;
+
 class JsonRenderer
 {
     public static function render(ResponseInterface $rs, int $code, mixed $data = null): ResponseInterface
