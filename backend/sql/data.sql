@@ -6,11 +6,15 @@ DROP TABLE IF EXISTS besoin CASCADE;
 DROP TABLE IF EXISTS competence CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
+--role 0 -> client
+--role 1 -> salarié
+--role 2 -> admin
 CREATE TABLE users (
                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                        nom VARCHAR(255) NOT NULL UNIQUE,
                        role INT NOT NULL
 );
+
 
 CREATE TABLE competence (
                             id SERIAL PRIMARY KEY,

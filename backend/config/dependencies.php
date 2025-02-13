@@ -15,9 +15,13 @@ use Psr\Container\ContainerInterface;
 
 return [
 
+    //SERVICES
     BesoinServiceInterface::class => DI\autowire(BesoinService::class),
     CompetenceServiceInterface::class => DI\autowire(CompetenceService::class),
+    \charly\core\service\interfaces\UserServiceInterface::class=> DI\autowire(\charly\core\service\UserService::class),
 
+
+    //REPOSITORIES
     BesoinRepositoryInterface::class => DI\autowire(BesoinRepository::class),
     UserRepositoryInterface::class => DI\autowire(UserRepository::class),
     CompetenceRepositoryInterface::class => DI\autowire(CompetenceRepository::class),
