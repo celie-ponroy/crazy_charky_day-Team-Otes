@@ -1,5 +1,5 @@
 <script>
-import { gameService } from '@/services/besoinService';
+import { besoinService } from '@/services/besoinService';
 export default {
     data() {
         return {
@@ -10,7 +10,7 @@ export default {
         };
     },
     mounted() {
-        gameService.getCompetences().then((competences) => {
+        besoinService.getCompetences().then((competences) => {
             this.competences = competences;
         });
     },
@@ -21,13 +21,11 @@ export default {
                 description: this.description,
                 competence: this.selectedComp,
             });
-            // gameService.addBesoin({
-            //     nom: this.nomClient,
-            //     description: this.description,
-            //     competence: this.selectedComp,
-            // }).then(() => {
-            //     this.$router.push('/besoins');
-            // });
+            besoinService.addBesoin({
+                nom_client: this.nomClient,
+                libelle_besoin: this.description,
+                id_competence: this.selectedComp,
+            });
         }
     },
     computed: {
@@ -67,7 +65,7 @@ export default {
                 </label>
                 <select v-model="selectedComp"
                     class="w-full px-4 py-2 rounded-md border-2 border-gray-600 text-slate-900 outline-none transition-colors">
-                    <option v-for="competence in competences" :key="competence.id" :value="competence.label">
+                    <option v-for="competence in competences" :key="competence.id" :value="competence.id">
                         {{ competence.label }}
                     </option>
                 </select>

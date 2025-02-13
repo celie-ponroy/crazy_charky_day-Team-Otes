@@ -20,10 +20,9 @@ use charly\middleware\AuthrzMiddleware;
 
 return function (\Slim\App $app): \Slim\App {
 
-    $app->get('[/]', HomeAction::class);    
+    $app->get('[/]', HomeAction::class); 
 
     $app->post('/besoins[/]', PostBesoin::class)->add(AuthMiddleware::class);
-
     $app->post('/users/salaries[/]', PostSalarie::class)->add(AuthMiddleware::class);
 
 
@@ -44,7 +43,7 @@ return function (\Slim\App $app): \Slim\App {
 
     $app->get('/users/{id}/services', GetServicesByUserId::class)->add(AuthMiddleware::class);
 
-    $app->get('/clients/besoins[/]', GetUsersBesoins::class)->add(AuthMiddleware::class);    
+    $app->get('/clients/besoins[/]', GetUsersBesoins::class)->add(AuthMiddleware::class);      
         
 
     $app->options('/{routes:.+}', function ($request, $response, $args) {
