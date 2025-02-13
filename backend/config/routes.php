@@ -7,6 +7,7 @@ use charly\application\action\HomeAction;
 use charly\application\action\PostBesoin;
 use charly\application\action\PostSalarie;
 use Slim\Exception\HttpNotFoundException;
+use charly\application\action\GetUsersBesoins;
 
 return function (\Slim\App $app): \Slim\App {
 
@@ -19,6 +20,8 @@ return function (\Slim\App $app): \Slim\App {
     $app->post('/users/salaries[/]', PostSalarie::class);
 
     $app->get('/users/salaries[/]', GetSalaries::class);
+
+    $app->get('/clients/besoins[/]', GetUsersBesoins::class);
 
     $app->options('/{routes:.+}', function ($request, $response, $args) {
         return $response;

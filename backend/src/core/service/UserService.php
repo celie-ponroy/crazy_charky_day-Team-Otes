@@ -25,4 +25,8 @@ class UserService implements UserServiceInterface
     {
         return $this->userRepository->getSalaries();
     }
+    public function getUserBesoins (string $id): array
+    {
+        return $this->userRepository->getUserBesoins($id);
+    }
 }
