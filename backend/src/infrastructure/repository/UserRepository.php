@@ -41,7 +41,7 @@ class UserRepository implements UserRepositoryInterface
         return null;
     }
 
-    public function createSalarie(InputCreateSalarie $input): User
+    public function createSalarie(InputCreateSalarie $input): void
     {
         $stmt = $this->pdo->prepare(
             "INSERT INTO users (nom, role) VALUES (:nom, :role) RETURNING id"
@@ -65,8 +65,6 @@ class UserRepository implements UserRepositoryInterface
                 'interet'       => $comp['note']
             ]);
         }
-
-        return new User($input->getNom(), $userId, 1);
     }
 
     public function getSalaries(): array

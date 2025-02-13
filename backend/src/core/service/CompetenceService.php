@@ -18,14 +18,7 @@ class CompetenceService implements CompetenceServiceInterface
 
     public function getListCompetence(): array
     {
-        $competences = $this->competenceRepository->getListCompetence();
-
-        //return array of dto
-        $resDTO = [];
-        foreach ($competences as $competence) {
-            $resDTO[] = $competence->toDTO();
-        }
-        return $resDTO;
+        return $this->competenceRepository->getListCompetence();
     }
 
     public function addCompetence(string $libelle, string $description): void

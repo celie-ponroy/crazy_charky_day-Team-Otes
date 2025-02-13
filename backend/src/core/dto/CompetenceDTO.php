@@ -3,13 +3,15 @@
 namespace charly\core\dto;
 
 class CompetenceDTO extends DTO
-{
-    protected string $label;
-    protected string $id;
+{   
+    protected int $id;
+    protected string $libelle;
+    protected string $description;
 
-    public function __construct(string $label, string $id)
+    public function __construct(string $libelle, string $description, int $id)
     {
-        $this->label = $label;
+        $this->libelle = $libelle;
+        $this->description = $description;
         $this->id = $id;
     }
 }

@@ -8,7 +8,7 @@ use charly\core\dto\UserDTO;
 
 interface UserRepositoryInterface
 {
-    public function createSalarie(InputCreateSalarie $inputCreateSalarie):User;
+    public function createSalarie(InputCreateSalarie $inputCreateSalarie):void;
     public function getSalaries():array;
 
 
