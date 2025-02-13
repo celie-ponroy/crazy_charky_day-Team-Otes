@@ -16,6 +16,7 @@ use charly\application\action\GetBesoins;
 use charly\application\action\GetServicesByUserId;
 use charly\application\action\DeleteCompetence;
 use charly\application\action\UpdateCompetence;
+use charly\middleware\AuthrzMiddleware;
 
 return function (\Slim\App $app): \Slim\App {
 
@@ -32,11 +33,11 @@ return function (\Slim\App $app): \Slim\App {
     $app->post('/register', RegisterAction::class);
     $app->post('/login', LoginAction::class);
 
-    //Route pour les compétences
-    $app->post('/competences[/]', CreateCompetence::class)->add(AuthMiddleware::class);
+    //Route pour les compétences    
     $app->get('/competences[/]', GetListCompetence::class)->add(AuthMiddleware::class);
-    $app->patch('/competences/{id}[/]', UpdateCompetence::class)->add(AuthMiddleware::class);
-    $app->delete('/competences/{id}[/]', DeleteCompetence::class)->add(AuthMiddleware::class);
+    $app->post('/competences[/]', CreateCompetence::class)->add(AuthMiddleware::class)->add(AuthrzMiddleware::class);
+    $app->patch('/competences/{id}[/]', UpdateCompetence::class)->add(AuthMiddleware::class)->add(AuthrzMiddleware::class);
+    $app->delete('/competences/{id}[/]', DeleteCompetence::class)->add(AuthMiddleware::class)->add(AuthrzMiddleware::class);
 
     //Route pour les besoins
     $app->get('/besoins[/]', GetBesoins::class)->add(AuthMiddleware::class);

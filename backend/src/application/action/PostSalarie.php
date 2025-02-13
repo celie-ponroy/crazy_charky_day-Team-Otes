@@ -46,7 +46,7 @@ class PostSalarie extends AbstractAction
             // Création du salarié
             $salarie = $this->userService->createSalarie(new InputCreateSalarie($data['nom'], $data['competences'], $data['password']));
 
-            return JsonRenderer::render($rs, 200, $salarie);
+            return JsonRenderer::render($rs, 200);
 
         } catch (InvalidArgumentException $e) {
             // Erreur de validation ou d'argument

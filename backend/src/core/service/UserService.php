@@ -15,10 +15,9 @@ class UserService implements UserServiceInterface
     {
         $this->userRepository = $userRepository;
     }
-    public function createSalarie(InputCreateSalarie $input): UserDTO
+    public function createSalarie(InputCreateSalarie $input): void
     {
-        $salarie = $this->userRepository->createSalarie($input);
-        return $salarie->toDTO();
+        $this->userRepository->createSalarie($input);
     }
 
     public function getSalaries(): array

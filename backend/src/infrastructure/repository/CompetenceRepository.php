@@ -3,6 +3,7 @@
 namespace charly\infrastructure\repository;
 
 use charly\core\domain\entity\Competence;
+use charly\core\dto\CompetenceDTO;
 use charly\infrastructure\repository\interfaces\CompetenceRepositoryInterface;
 use PDO;
 use Psr\Container\ContainerInterface;
@@ -22,7 +23,7 @@ class CompetenceRepository implements CompetenceRepositoryInterface
 
         $competences = [];
         foreach ($rows as $row) {
-            $competence = new Competence($row['libelle'], $row['description']);
+            $competence = new CompetenceDTO($row['libelle'], $row['description'], $row['id']);
             $competences[] = $competence;
         }
         return $competences;
