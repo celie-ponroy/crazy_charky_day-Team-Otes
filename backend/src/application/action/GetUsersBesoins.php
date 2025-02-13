@@ -1,18 +1,19 @@
 <?php
 namespace charly\application\action;
 
+use charly\core\service\interfaces\BesoinServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use charly\application\renderer\JsonRenderer;
-use charly\core\service\interfaces\UserServiceInterface;
+
 
 class GetUsersBesoins extends AbstractAction
 {
-    protected userServiceInterface $userService;
+    protected BesoinServiceInterface $besoinService;
 
-    public function __construct(userServiceInterface $userService)
+    public function __construct(BesoinServiceInterface $besoinService)
     {
-        $this->userService = $userService;
+        $this->besoinService = $besoinService;
     }
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
@@ -31,7 +32,7 @@ class GetUsersBesoins extends AbstractAction
 
         try {
             // Récupérer les besoins du user
-            $needs = $this->userService->getUserBesoins($userId);
+            $needs = $this->besoinService->getUserBesoins($userId);
 
             // Vérifier si des besoins existent pour ce user
             if (empty($needs)) {
