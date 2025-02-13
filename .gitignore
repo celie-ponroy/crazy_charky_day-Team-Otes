@@ -1,0 +1,27 @@
+# Exclure les fichiers de VS Code
+.vscode/
+
+# Exclure les fichiers de JetBrains (IntelliJ, PyCharm, WebStorm...)
+.idea/
+*.iml
+
+# Exclure les fichiers de logs et d'environnement spécifique aux éditeurs
+*.log
+*.swo
+*.swp
+
+# Exclure les fichiers de build/cache en général
+node_modules/
+dist/
+build/
+out/
+
+# Exclure les fichiers de dépendances Python (si projet Python)
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# Exclure les fichiers MacOS spécifiques
+.DS_Store
