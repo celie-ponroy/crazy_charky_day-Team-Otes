@@ -21,6 +21,8 @@ use charly\providers\auth\JWTManager;
 use charly\core\service\UserAuthService;
 use charly\middleware\CorsMiddleware;
 use Psr\Container\ContainerInterface;
+use charly\core\service\authorization\AuthrzService;
+use charly\core\service\authorization\AuthrzServiceInterface;
 
 return [
 
@@ -56,6 +58,10 @@ return [
 
     ServiceServiceInterface::class => function (ContainerInterface $container) {
         return new ServiceService($container->get(ServiceRepositoryInterface::class));
+    },
+
+    AuthrzServiceInterface::class => function (ContainerInterface $container) {
+        return new AuthrzService($container->get(UserAuthServiceInterface::class));
     },
 
     CorsMiddleware::class => DI\autowire(CorsMiddleware::class),
