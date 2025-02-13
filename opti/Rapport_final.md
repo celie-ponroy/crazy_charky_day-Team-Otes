@@ -77,7 +77,7 @@ Pour cette partie, nous avons décider d'implémenter 3 algorithmes d'optimisati
 - les explications...
 - ...de ce qu'on a fait
 
-##  Déploiement ##
+##  Partie Déploiement ##
 
 Pour cette partie, nous avons suivi l'approche :
 
