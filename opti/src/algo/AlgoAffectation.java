@@ -6,8 +6,19 @@ import outils.Salarie;
 
 import java.util.List;
 
-public interface AlgoAffectation {
+public abstract class AlgoAffectation {
 
-    List<Affectation> lancerCalcul(List<Besoin> besoins, List<Salarie> salaries);
+    //Atributs
+
+    protected int score ;
+
+
+    //constructeur
+    public AlgoAffectation() {
+        this.score = 0;
+    }
+
+    public abstract List<Affectation> lancerCalcul(List<Besoin> besoins, List<Salarie> salaries);
+    public abstract void verifFin(List<Besoin> besoins, List<Salarie> salaries);
 
 }
