@@ -19,20 +19,18 @@ services:
     networks:
       - webnet
     volumes:
-      - ./frontend:/var/www/html
+      - ./backend:/var/www/html
     working_dir: /var/www/html
-
 
   charly.db:
     image: 'postgres:latest'
-    env_file: ./frontend/charly.env
+    env_file: ./backend/charly.env
     ports:
       - '2002:5432'
     networks:
       - webnet
     volumes:
-      - ./frontend/sql:/docker-entrypoint-initdb.d
-
+      - ./backend/sql:/docker-entrypoint-initdb.d
 
   adminer:
     image: adminer:latest
