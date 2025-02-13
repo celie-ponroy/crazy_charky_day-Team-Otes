@@ -38,7 +38,7 @@ public class LancerAlgo {
                 algo = new GaleShapley();
                 break;
             case 3:
-                //algo = new AlgoGlouton();
+                algo = new AlgoGlouton();
                 break;
             default:
                 System.out.println("Choix invalide, utilisation de l'algorithme par défaut (AlgoRecuitSimule).");
@@ -57,17 +57,17 @@ public class LancerAlgo {
         String fichierCSV;
         switch (choixFichier) {
             case 1:
-                fichierCSV = "opti/csv/00_pb_exemple/Probleme_simple.csv";
+                fichierCSV = "opti/ressource/csv/01_pb_simples/Probleme_1_nbSalaries_3_nbClients_3_nbTaches_2.csv";
                 break;
             case 2:
-                fichierCSV = "opti/csv/01_pb_simples/Probleme_1_nbSalaries_3_nbClients_3_nbTaches_2.csv";
+                fichierCSV = "opti/ressource/csv/01_pb_simples/Probleme_1_nbSalaries_3_nbClients_3_nbTaches_2.csv";
                 break;
             case 3:
-                fichierCSV = "opti/csv/02_pb_complexes/Probleme_1_nbSalaries_10_nbClients_10_nbTaches_3.csv";
+                fichierCSV = "opti/ressource/csv/02_pb_complexes/Probleme_1_nbSalaries_10_nbClients_10_nbTaches_3.csv";
                 break;
             default:
-                System.out.println("Choix invalide, utilisation du fichier par défaut (difficile).");
-                fichierCSV = "opti/csv/02_pb_complexes/Probleme_1_nbSalaries_10_nbClients_10_nbTaches_3.csv";
+                System.out.println("Choix invalide, utilisation du fichier par défaut (complexe).");
+                fichierCSV = "opti/ressource/csv/02_pb_complexes/Probleme_1_nbSalaries_10_nbClients_10_nbTaches_3.csv";
         }
 
         // Importation des données
@@ -85,7 +85,7 @@ public class LancerAlgo {
         System.out.println("Liste des affectations : ");
 
         System.out.println(resultats);
-        ex.exporterSolution(resultats, algo.score, "opti/csv/soluce.csv");
+        ex.exporterSolution(resultats, algo.score, "opti/ressource/csv/solution.csv");
         System.out.println("Score : " + algo.score);
 
         scanner.close();
