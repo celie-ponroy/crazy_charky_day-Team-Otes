@@ -2,8 +2,9 @@ package algo;
 
 public class LancerAlgo {
 
-    public void run() {
+    public static void main(String[] args) {
+
+
 
     }
-
 }

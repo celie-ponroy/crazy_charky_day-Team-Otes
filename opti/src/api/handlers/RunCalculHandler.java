@@ -1,7 +1,10 @@
 package api.handlers;
 
+import algo.AlgoAffectation;
+import algo.GaleShapley;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import outils.donnees.ExportBD;
 import outils.donnees.ImportBD;
 
 import javax.json.Json;
@@ -16,6 +19,7 @@ import java.util.Date;
 public class RunCalculHandler implements HttpHandler {
 
     private ImportBD importBD = new ImportBD();
+    private AlgoAffectation algoAffectation = new GaleShapley();
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -36,7 +40,14 @@ public class RunCalculHandler implements HttpHandler {
 
             String dateStr = json.getString("date");
             if (isValidDate(dateStr)) {
-                System.out.println(importBD.getBesoinsByDate(dateStr));
+                var besoins = importBD.getBesoinsByDate(dateStr);
+                var salaries = importBD.getSalaries();
+
+                System.out.println(salaries);
+
+                var affectations = algoAffectation.lancerCalcul(besoins, salaries);
+                System.out.println(affectations);
+                new ExportBD().exporterSolution(affectations, 0, null);
 
                 sendResponse(exchange, 200, "Date valide");
             } else {

@@ -49,7 +49,7 @@ public class ImportBD implements Import {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                UUID id = UUID.randomUUID();
+                int id = rs.getInt("id");
                 String nom = rs.getString("libelle");
                 String competenceStr = rs.getString("competence");
                 Competence competence = Competence.getCompetence(competenceStr);
@@ -109,7 +109,7 @@ public class ImportBD implements Import {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                UUID id = UUID.randomUUID(); // Génération d'un UUID temporaire
+                int id = rs.getInt("id"); // Génération d'un UUID temporaire
                 String nom = rs.getString("libelle");
                 String competenceStr = rs.getString("competence");
                 Competence competence = Competence.getCompetence(competenceStr);

@@ -13,7 +13,7 @@ public class Server {
             server.createContext("/api/runCalcul", new RunCalculHandler());
 
             server.setExecutor(null);
-            System.out.println("🚀 Serveur démarré: http://localhost:8080");
+            System.out.println("🚀 Serveur démarré: http://localhost:8081");
             server.start();
         } catch (IOException e) {
             System.err.println("Erreur lors du démarrage du serveur : " + e.getMessage());
