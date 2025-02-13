@@ -15,6 +15,7 @@ node_modules/
 dist/
 build/
 out/
+target/
 
 # Exclure les fichiers de dépendances Python (si projet Python)
 __pycache__/

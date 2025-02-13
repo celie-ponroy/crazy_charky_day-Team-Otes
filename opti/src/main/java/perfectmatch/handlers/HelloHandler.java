@@ -1,4 +1,4 @@
-package handlers;
+package perfectmatch.handlers;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import javax.json.Json;
 import javax.json.JsonObject;
-import models.ApiResponse;
+import perfectmatch.models.ApiResponse;
 
 public class HelloHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
