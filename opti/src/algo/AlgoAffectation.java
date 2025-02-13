@@ -1,4 +1,4 @@
-package outils.algo;
+package algo;
 
 import outils.Affectation;
 import outils.Besoin;
