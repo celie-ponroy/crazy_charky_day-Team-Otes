@@ -23,7 +23,7 @@ services:
     networks:
       - charly.net
     volumes:
-      - ./sql:/var/sql
+      - ./sql:/docker-entrypoint-initdb.d
 
   adminer:
     image: adminer:latest

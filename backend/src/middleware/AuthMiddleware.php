@@ -4,7 +4,6 @@ namespace charly\middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use GuzzleHttp\Exception\RequestException;
 use charly\providers\auth\JWTManager;
 use Slim\Psr7\Response;
 
