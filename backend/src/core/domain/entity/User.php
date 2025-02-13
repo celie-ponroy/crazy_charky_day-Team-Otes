@@ -11,13 +11,13 @@ class User extends Entity
 
     protected string $nom;
     protected int $role;
-    protected string $password;
+    // protected string $password;
 
     public function __construct(string $nom, string $password)
     {   
         $this->setID(Guid::uuid4()->toString());
         $this->nom = $nom;
         $this->role = self::ROLE_CLIENT;
-        $this->password = $password;
+        // $this->password = $password;
     }
 }

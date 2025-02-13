@@ -36,7 +36,7 @@ class UserRepository implements UserRepositoryInterface
         $stmt->execute(['nom' => $nom]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
-            return new User($data['nom'], $data['id'], $data['role'], $data['password']);
+            return new User($data['nom'], $data['password'], $data['id'], $data['role'], );
         }
         return null;
     }
@@ -44,11 +44,12 @@ class UserRepository implements UserRepositoryInterface
     public function createSalarie(InputCreateSalarie $input): void
     {
         $stmt = $this->pdo->prepare(
-            "INSERT INTO users (nom, role) VALUES (:nom, :role) RETURNING id"
+            "INSERT INTO users (nom, role, password) VALUES (:nom, :role, :password) RETURNING id"
         );
         $stmt->execute([
             'nom'  => $input->getNom(),
-            'role' => 1
+            'role' => 1,
+            'password' => password_hash($input->getPassword(), PASSWORD_BCRYPT)
         ]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $userId = $row['id'];
