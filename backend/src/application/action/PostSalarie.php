@@ -26,6 +26,9 @@ class PostSalarie extends AbstractAction
             if (empty($data['nom']) || !is_string($data['nom'])) {
                 return JsonRenderer::render($rs, 400, ['error' => 'Le champ "nom" est obligatoire et doit être une chaîne de caractères.']);
             }
+            if (empty($data['password']) || !is_string($data['password'])) {
+                return JsonRenderer::render($rs, 400, ['error' => 'Le champ "password" est obligatoire et doit être une chaîne de caractères.']);
+            }
 
             if (empty($data['competences']) || !is_array($data['competences'])) {
                 return JsonRenderer::render($rs, 400, ['error' => 'Le champ "competences" doit être un tableau d\'objets.']);
@@ -41,7 +44,7 @@ class PostSalarie extends AbstractAction
             }
 
             // Création du salarié
-            $salarie = $this->userService->createSalarie(new InputCreateSalarie($data['nom'], $data['competences']));
+            $salarie = $this->userService->createSalarie(new InputCreateSalarie($data['nom'], $data['competences'], $data['password']));
 
             return JsonRenderer::render($rs, 200, $salarie);
 
@@ -49,8 +52,8 @@ class PostSalarie extends AbstractAction
             // Erreur de validation ou d'argument
             return JsonRenderer::render($rs, 400, ['error' => $e->getMessage()]);
         } catch (\Exception $e) {
-            // Autres erreurs imprévues
-            return JsonRenderer::render($rs, 500, ['error' => 'Erreur interne du serveur.']);
+            // Autres erreurs imprévues            
+            return JsonRenderer::render($rs, 500, ['error' => $e->getMessage()]);
         }
     }
 }
