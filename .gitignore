@@ -25,3 +25,4 @@ venv/
 
 # Exclure les fichiers MacOS spécifiques
 .DS_Store
+vendor/
