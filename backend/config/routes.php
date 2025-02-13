@@ -22,12 +22,12 @@ return function (\Slim\App $app): \Slim\App {
 
     $app->get('[/]', HomeAction::class);    
 
-    $app->post('/besoins[/]', PostBesoin::class);
+    $app->post('/besoins[/]', PostBesoin::class)->add(AuthMiddleware::class);
 
-    $app->post('/users/salaries[/]', PostSalarie::class);
+    $app->post('/users/salaries[/]', PostSalarie::class)->add(AuthMiddleware::class);
 
 
-    $app->get('/users/salaries[/]', GetSalaries::class);
+    $app->get('/users/salaries[/]', GetSalaries::class)->add(AuthMiddleware::class);
 
     //Route pour l'authentification
     $app->post('/register', RegisterAction::class);
@@ -44,7 +44,7 @@ return function (\Slim\App $app): \Slim\App {
 
     $app->get('/users/{id}/services', GetServicesByUserId::class)->add(AuthMiddleware::class);
 
-    $app->get('/clients/besoins[/]', GetUsersBesoins::class);    
+    $app->get('/clients/besoins[/]', GetUsersBesoins::class)->add(AuthMiddleware::class);    
         
 
     $app->options('/{routes:.+}', function ($request, $response, $args) {
