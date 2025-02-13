@@ -10,6 +10,7 @@ class BesoinDTO extends DTO
     protected string $libelleBesoin;
     protected int $idCompetence;
     protected int $id;
+    protected int $timestamp;
 
     public function __construct(Besoin $besoin)
     {
@@ -17,6 +18,7 @@ class BesoinDTO extends DTO
         $this->libelleBesoin = $besoin->getLibelleBesoin();
         $this->idCompetence = $besoin->getIdCompetence();
         $this->id = $besoin->getId();
+        $this->timestamp=$besoin->getTimestamp();
     }
 
 }

@@ -2,22 +2,25 @@
 
 namespace charly\core\domain\entity;
 
-use charly\core\dto\CompetenceDTO;
+class Competence 
+{   
+    protected string $libelle;
+    protected string $description;
 
-class Competence
-{
-    protected string $label;
-    protected string $id;
-
-    public function __construct(string $label, string $id)
+    public function __construct(string $libelle, string $description)
     {
-        $this->label = $label;
-        $this->id = $id;
+        $this->libelle = $libelle;
+        $this->description = $description;
     }
 
-   public function toDTO(): CompetenceDTO
+    public function getLibelle(): string
     {
-        return new CompetenceDTO($this->label, $this->id);
+        return $this->libelle;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 
 }
