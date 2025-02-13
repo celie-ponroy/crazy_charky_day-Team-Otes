@@ -22,6 +22,8 @@ public class ExportCSV implements Export{
             for (Affectation affectation : affactations) {
                 writer.append(affectation.salarie().nom().toString());
                 writer.append(";");
+                writer.append(affectation.besoin().competence().name().toString());
+                writer.append(";");
                 writer.append(affectation.besoin().nom().toString());
                 writer.append("\n");
             }
