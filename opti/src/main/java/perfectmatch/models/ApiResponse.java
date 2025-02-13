@@ -1,4 +1,4 @@
-package models;
+package perfectmatch.models;
 
 import javax.json.Json;
 import javax.json.JsonObject;

@@ -3,8 +3,8 @@ package perfectmatch;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import handlers.HelloHandler;
-import handlers.EchoHandler;
+import perfectmatch.handlers.HelloHandler;
+import perfectmatch.handlers.EchoHandler;
 
 public class Server {
     public static void start(int port) {
