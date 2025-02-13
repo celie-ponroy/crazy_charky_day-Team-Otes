@@ -11,6 +11,39 @@ services:
     networks:
       - webnet
 
+  php:
+    image: canals/php:8.3
+    container_name: charly_php
+    ports:
+      - '2000:80'
+    networks:
+      - webnet
+    volumes:
+      - ./frontend:/var/www/html
+    working_dir: /var/www/html
+
+
+  charly.db:
+    image: 'postgres:latest'
+    env_file: ./frontend/charly.env
+    ports:
+      - '2002:5432'
+    networks:
+      - webnet
+    volumes:
+      - ./frontend/sql:/docker-entrypoint-initdb.d
+
+
+  adminer:
+    image: adminer:latest
+    container_name: charly_adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: charly.db
+    ports:
+      - '2001:8080'
+    networks:
+      - webnet
+
 networks:
   webnet:
     driver: bridge
