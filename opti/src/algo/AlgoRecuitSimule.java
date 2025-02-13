@@ -12,6 +12,12 @@ public class AlgoRecuitSimule implements AlgoAffectation{
     private List<Affectation> perfectMatches = new ArrayList<>();
      int score = 0;
 
+    /**
+     * lancer le calcul
+     * @param besoins
+     * @param salaries
+     * @return
+     */
     @Override
     public List<Affectation> lancerCalcul(List<Besoin> besoins, List<Salarie> salaries) {
         List<Affectation> affectations = new ArrayList<>();
@@ -21,21 +27,13 @@ public class AlgoRecuitSimule implements AlgoAffectation{
         score = CalculeScoreAffectation.scoreAffectation(affectations,besoins,salaries);
         return affectations;
     }
-    private List<Affectation> affecterDefaut(List<Besoin> besoins, List<Salarie> salaries) {
-        List<Affectation> affectations = new ArrayList<>();
 
-        List<Salarie> salarieAffecte = salaries;
-        for (Besoin besoin : besoins) {
-            for (Salarie salarie : salarieAffecte) {
-                if (besoin.estAcceptable(salarie)) {
-                    affectations.add(new Affectation(besoin,salarie));
-                    salarieAffecte.remove(salarie);
-                    break;
-                }
-            }
-        }
-        return affectations;
-    }
+    /** Permets d'avoir les valeurs de départ aléatoire
+     * affecter aleatoirement
+     * @param besoins
+     * @param salaries
+     * @return
+     */
     private List<Affectation> affecterAleatoire(List<Besoin> besoins, List<Salarie> salaries) {
         List<Affectation> affectations = new ArrayList<>();
         List<Salarie> salarieAffecte = new ArrayList<>(salaries);
@@ -55,9 +53,18 @@ public class AlgoRecuitSimule implements AlgoAffectation{
     private List<Salarie> salariesCompetents(Besoin b, List<Salarie> salaries){
         return salaries.stream().filter(s -> b.estAcceptable(s)).toList();
     }
-    //au bout de n itération je baisse la température
-    //t = nombre de changement de
+
     /**
+     * recuit simulé
+     * @param affectations
+     * @param temp
+     * @param kmax
+     * @param emax
+     * @param salaries
+     * @param besoins
+     * @return
+     */
+    /*
      * s := s0
      * g := s0
      * e := E(s)
@@ -99,12 +106,18 @@ public class AlgoRecuitSimule implements AlgoAffectation{
         return g;
 
     }
+
+    /**
+     * recuperrer un voisin aléatoire
+     * @param affectations
+     * @param salarieNonAffectes
+     * @return
+     */
     private List<Affectation> voisinAleatoire(List<Affectation> affectations, List<Salarie> salarieNonAffectes){
         //on choisi une case aléatoire et on la change
         List<Affectation> copieAffectations = new ArrayList<>(affectations);
         copieAffectations.removeAll(perfectMatches);
         if(copieAffectations.isEmpty()){
-            System.out.println("perfect match");
             return affectations;
         }
         int index = (int) (Math.random() * copieAffectations.size());
@@ -113,13 +126,11 @@ public class AlgoRecuitSimule implements AlgoAffectation{
         List<Salarie> salarieNonAffectesCompetent = salarieNonAffectes.stream().filter(s -> besoinSelectionne.estAcceptable(s)).toList();
 
         if (!salarieNonAffectesCompetent.isEmpty()){
-            System.out.println("meilleur cas");
             //au hasard dans la nouvelle liste
             int indexDispo = (int) (Math.random() * copieAffectations.size());
             copieAffectations.set(index,new Affectation(besoinSelectionne,salarieNonAffectesCompetent.get(indexDispo)));
             return copieAffectations;
         }else{
-            System.out.println("cas liste affectés");
             //on regarde dans la liste des affectations
             List<Salarie> salarierAffectes = new ArrayList<>(copieAffectations.stream().map(Affectation::salarie).toList());
             Salarie salarie = copieAffectations.get(index).salarie();
@@ -127,14 +138,12 @@ public class AlgoRecuitSimule implements AlgoAffectation{
             salarierAffectes = salarierAffectes.stream().filter(s -> besoinSelectionne.estAcceptable(s)).toList();
 
             if (!salarierAffectes.isEmpty()){
-                System.out.println("cas liste affectés1");
                 //au hasard dans la nouvelle liste
                 int indexDispo = (int) (Math.random() * salarieNonAffectesCompetent.size());
                 Besoin ancienBesoin = copieAffectations.get(indexDispo).besoin();
                 copieAffectations.set(index, new Affectation(besoinSelectionne, salarierAffectes.get(indexDispo)));
                 List<Salarie> salarieNonAffectesCompetent2  = salarieNonAffectes.stream().filter(s -> ancienBesoin.estAcceptable(s)).toList();
                 if (!salarieNonAffectesCompetent2.isEmpty()) {
-                    System.out.println("cas liste affectés2");
                     //au hasard dans la nouvelle liste
                     int indexDispo2 = (int) (Math.random() * copieAffectations.size());
                     copieAffectations.set(index, new Affectation(besoinSelectionne, salarieNonAffectesCompetent.get(indexDispo2)));
@@ -142,7 +151,6 @@ public class AlgoRecuitSimule implements AlgoAffectation{
                 }//sinon on modifira trop
                 return copieAffectations;
             }else {
-                System.out.println("perfect match2");
                 perfectMatches.add(copieAffectations.get(index));
                 return voisinAleatoire(affectations,salarieNonAffectesCompetent);
             }
