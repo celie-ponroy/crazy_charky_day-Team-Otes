@@ -95,6 +95,17 @@ Dans la classe GaleShapley, l’algorithme est adapté à l’affectation des sa
 L’algorithme procède ensuite de manière itérative tant qu’il reste des salariés non affectés et des besoins disponibles. Chaque salarié propose son aide au besoin le mieux adapté selon les critères de compatibilité. Si le besoin est libre, le salarié est directement affecté. Dans le cas contraire, le salarié doit proposer à un autre besoin. Une particularité de cette implémentation réside dans l’ajout d’un malus de -1 aux scores si le client possède deja un besoin occupé par un salarié, afin de diversifier les affectations et d’éviter une saturation autour des mêmes besoins.
 La complexité de cet algorithme est principalement dominée par les étapes de tri, ce qui le place dans une classe de complexité O(n log n). 
 
+
+### Comparaison des algorithmes ###
+Après avoir passé les tests simples et compliqués, nous avons remarqué que l'algorithme a été le moins performant sur ceux tester.
+![Texte alternatif](/image/analyse_1.png "Accueil de l'application")
+
+Après avoir passé les tests simples et compliqués, nous avons remarqué que l'algorithme glouton a été le plus performant.
+![Texte alternatif](/image/analyse_2.png "Accueil de l'application")
+
+Après avoir passé les tests simples et compliqués, nous avons remarqué que l'algorithme du mariage simple a été le deuxième plus performant après le glouton.
+![Texte alternatif](/image/analyse_3.png "Accueil de l'application")
+
 ##  Partie Déploiement ##
 
 ### Choix des technologies {#choix-des-technologies} ###
@@ -123,5 +134,6 @@ Cela va nous permettre d’avoir un seul fichier .jar qui lancera l’API.
 ### Perspectives d’amélioration ###
 
 Si l’on souhaite améliorer le déploiement, il est possible de faire un reverse proxy qui permettrait d’avoir des meilleures performances en mettant en cache les réponses serveurs mais également en qualité de sécurité grâce au masquage des serveurs backend, dans le cas où l’on souhaite étendre l’infrastructure.
+Puis pour terminer, il serait judicieux de passer l’URL de la web application en HTTPS via des certificats SSL. Pour cela on aurait pu utiliser Certbot qui permettrait une meilleure gestion des certificats (obtention et renouvellement automatique).
 
 
