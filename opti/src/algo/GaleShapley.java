@@ -7,6 +7,41 @@ import java.util.stream.Collectors;
 
 public class GaleShapley extends AlgoAffectation {
 
+    /**
+     * Implémente l'algorithme de Gale-Shapley pour l'affectation optimale des salariés aux besoins.
+     *
+     * Cet algorithme vise à affecter chaque salarié à un besoin en fonction de ses compétences,
+     * tout en minimisant les conflits et en maximisant l'adéquation entre les besoins et les compétences.
+     *
+     * Étapes principales :
+     * 1. Trier les salariés par ordre alphabétique.
+     * 2. Initialiser les structures de données :
+     *    - `salariesLibre` : Liste des salariés encore disponibles avec leurs besoins potentiels triés par pertinence.
+     *    - `affectation` : Liste des salariés déjà affectés à un besoin.
+     * 3. Construire la liste des besoins compatibles pour chaque salarié en fonction de ses compétences.
+     * 4. Tant qu'il reste des salariés non affectés et des besoins disponibles :
+     *    - Afficher l'état actuel des salariés disponibles.
+     *    - Trier les salariés disponibles en fonction de leur meilleure compatibilité avec un besoin.
+     *    - Appliquer un malus de -1 aux scores des besoins dont le client est déjà servi.
+     *    - Chaque salarié propose au besoin avec lequel il a la meilleure compatibilité.
+     *    - Si le besoin est libre, le salarié est directement affecté.
+     *    - Sinon, il essaie un autre besoin.
+     * 5. Convertir la structure de données interne en une liste d'objets `Affectation`.
+     *
+     * Complexité :
+     * - La complexité globale est approximativement O(n log n) en raison des tris appliqués aux salariés et aux besoins.
+     * - L'affectation elle-même suit une logique de matching stable, optimisant l'adéquation entre salariés et besoins.
+     *
+     * Remarque :
+     * - Contrairement à l'algorithme original de Gale-Shapley, ici, il n'y a pas de classement des besoins du côté des salariés
+     *   ni de classement des salariés du côté des besoins. Cela signifie que l'algorithme est très proche d'une approche gloutonne,
+     *   où les salariés prennent la meilleure opportunité disponible à chaque itération sans rétroaction systématique.
+     *
+     * @param besoins   Liste des besoins à combler.
+     * @param salaries  Liste des salariés disponibles.
+     * @return          Liste des affectations optimisées entre salariés et besoins.
+     */
+
     @Override
     public List<Affectation> lancerCalcul(List<Besoin> besoins, List<Salarie> salaries) {
 
@@ -33,7 +68,6 @@ public class GaleShapley extends AlgoAffectation {
         while (!salariesLibre.isEmpty() && (affectation.size() != besoins.size())) {
             printMapVisually(salariesLibre);
 
-            // Tri des salariés libres (par leur meilleur score)
             salariesLibre = trierSalariesLibre(salariesLibre);
             updateSalariesLibre(salariesLibre, affectation);
 
@@ -49,12 +83,11 @@ public class GaleShapley extends AlgoAffectation {
                     Besoin premierBesoin = liste.entrySet().iterator().next().getKey();
 
                     if (!besoinsDemandes.containsKey(premierBesoin)) {
-                        // Affectation directe
                         Map<Besoin, Integer> assignment = new LinkedHashMap<>();
                         assignment.put(premierBesoin, liste.get(premierBesoin));
                         affectation.put(salarie, assignment);
                         besoinsDemandes.put(premierBesoin, salarie);
-                        iterator.remove(); // Retirer ce salarié car il est affecté
+                        iterator.remove();
                     } else {
                         liste.remove(premierBesoin);
                     }
@@ -62,7 +95,6 @@ public class GaleShapley extends AlgoAffectation {
             }
         }
 
-        // Conversion de `affectation` en `List<Affectation>`
         List<Affectation> affectations = new ArrayList<>();
         for (Map.Entry<Salarie, Map<Besoin, Integer>> entry : affectation.entrySet()) {
             Salarie salarie = entry.getKey();
@@ -79,14 +111,12 @@ public class GaleShapley extends AlgoAffectation {
 
         Map<Salarie, Map<Besoin, Integer>> sortedSalariesLibre = new LinkedHashMap<>();
 
-        // 🔹 Trier par ordre alphabétique des salariés
         List<Salarie> salariesTries = new ArrayList<>(salariesLibre.keySet());
         salariesTries.sort(Comparator.comparing(Salarie::nom));
 
         for (Salarie salarie : salariesTries) {
             Map<Besoin, Integer> besoinsMap = salariesLibre.get(salarie);
 
-            // 🔹 Tri stable en cas d'égalité
             Map<Besoin, Integer> sortedBesoinsMap = besoinsMap.entrySet().stream()
                     .sorted((e1, e2) -> {
                         int compare = e2.getValue().compareTo(e1.getValue()); // Tri décroissant des valeurs
@@ -119,24 +149,18 @@ public class GaleShapley extends AlgoAffectation {
     private void updateSalariesLibre(Map<Salarie, Map<Besoin, Integer>> salariesLibre,
                                      Map<Salarie, Map<Besoin, Integer>> affectation) {
 
-        // Récupérer l'ensemble des clients déjà servis.
-        // Ici, on suppose que la méthode besoin.nom() retourne l'identifiant du client.
         Set<String> clientsServed = affectation.values().stream()
                 .flatMap(assignment -> assignment.keySet().stream())
                 .map(Besoin::nom)
                 .collect(Collectors.toSet());
 
-        // Pour chaque salarié libre...
         for (Map.Entry<Salarie, Map<Besoin, Integer>> entry : salariesLibre.entrySet()) {
             Map<Besoin, Integer> besoinsMap = entry.getValue();
 
-            // Pour chaque besoin potentiel du salarié...
             for (Map.Entry<Besoin, Integer> besoinEntry : besoinsMap.entrySet()) {
                 Besoin besoin = besoinEntry.getKey();
                 int score = besoinEntry.getValue();
 
-                // Si le client (ici identifié par besoin.nom()) est déjà servi,
-                // on applique le malus de -1 (sans descendre en dessous de 1).
                 if (clientsServed.contains(besoin.nom())) {
                     int newScore = Math.max(score - 1, 1);
                     besoinEntry.setValue(newScore);
