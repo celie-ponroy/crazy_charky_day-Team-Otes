@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                       nom VARCHAR(255) NOT NULL,
+                       nom VARCHAR(255) NOT NULL UNIQUE,
                        role INT NOT NULL
 );
 
